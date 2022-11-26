@@ -1,0 +1,53 @@
+﻿@page "/Orders"
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+
+
+ <div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Count</th>
+                <th>Order Time</th>
+            </tr>
+        </thead>
+        <tbody>
+
+    @foreach (var order in orders)
+    {
+        <tr>
+        <td>@order.Item</td>
+        <td>@order.Count</td>
+        <td>@order.OrderTime</td>
+        </tr>
+    }
+    </tbody>
+    </table>
+    </div>
+
+<input placeholder="Place Order" @bind="newOrder" />
+<input placeholder="Number of Items" @bind="orderCount" />
+<button @onclick="AddItem">Add Order</button>
+
+@code {
+    private List<OrderItem> orders = new();
+    private string? newOrder;
+    private int orderCount = 1;
+
+    private void AddItem()
+    {
+        if (!string.IsNullOrWhiteSpace(newOrder))
+        {
+            orders.Add(new OrderItem { 
+                Item = newOrder,
+                Count = orderCount,
+                OrderTime = DateTime.Now});
+                
+            newOrder = string.Empty;
+        }
+    }
+}
